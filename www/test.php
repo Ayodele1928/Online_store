@@ -15,7 +15,9 @@ try{
 
 }
 */
-
+if (array_key_exists('save', $_POST)){
+	print_r($_FILES);
+}
  ?>
   <form id="register" method="POST" enctype="multipart/form-data">
  	<p> Please Upload a file </p>
