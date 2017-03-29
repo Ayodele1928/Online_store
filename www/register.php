@@ -33,7 +33,7 @@
 
 		#validate  confirmed password
 
-		if(empty($_POST['password'] != $_POST['pword'])){
+		if($_POST['password'] != $_POST['pword']){
 			$errors['pword'] ="Passwords do not match <br/>";
 		}
 
