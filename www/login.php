@@ -1,6 +1,11 @@
 <?php
+	#page title
+	$page_title = "Login";
+
 	#include header
 	include 'includes/header.php';
+
+
 
 ?>
 <link rel="stylesheet" type= "text/css" href="../styles/styles.css">

@@ -1,11 +1,14 @@
 	
 	<?php
+	#title 
+	$page_title = "Register";
+	
+
 	#include header
 	include 'includes/header.php';
 
-
 	 ?>
-<link rel="stylesheet" type= "text/css" href="../styles/styles.css">
+	<link rel="stylesheet" type= "text/css" href="../styles/styles.css">
 	<div class="wrapper">
 		<h1 id="register-label">Admin Register</h1>
 		<hr>
