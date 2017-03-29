@@ -7,6 +7,45 @@
 	#include header
 	include 'includes/header.php';
 
+	if(array_key_exists('register', $_POST)){
+		#cache errors
+		$errors = [];
+
+		#validate first  name
+		if(empty($_POST['fname'])){
+			$errors['fname'] ="Please enter a first name";
+		}
+		
+		#validate last name
+		if(empty($_POST['lname'])){
+			$errors['lname'] ="Please enter a last name";
+		}
+
+		#validate email
+		if(empty($_POST['email'])){
+			$errors['email'] ="Please enter an email address";
+		}
+
+		#validate password
+		if(empty($_POST['password'])){
+			$errors['password'] ="Please enter a password";
+		}
+
+		#validate  confirmed password
+
+		if(empty($_POST['password'] != $_POST['pword'])){
+			$errors['pword'] ="Passwords do not match";
+		}
+
+		if(empty($errors)){
+			#do database stuff
+		} else{
+			foreach ($errors as $err) {
+				echo $err;
+			}
+		}
+	}
+
 	 ?>
 	<link rel="stylesheet" type= "text/css" href="../styles/styles.css">
 	<div class="wrapper">
