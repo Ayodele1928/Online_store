@@ -32,6 +32,10 @@
 			$errors['email'] ="Please enter an email address <br/>";
 		}
 
+		if(doesEmailExist($conn, $_POST['email'])){
+			$errors['email'] = "Email already exists";
+		}
+
 		#validate password
 		if(empty($_POST['password'])){
 			$errors['password'] ="Please enter a password <br/>";
@@ -50,6 +54,7 @@
 			$clean = array_map('trim', $_POST);
 
 			doAdminRegister($conn, $clean);
+			#doesEmailExist($dbconn, $email);
 /*
 			#hash the passwords
 			$hash = password_hash($clean['password'], PASSWORD_BCRYPT);
