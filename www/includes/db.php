@@ -1,6 +1,6 @@
 <?php
 
-define('DBNAME', 'test');
+define('DBNAME', 'online_store');
 define('DBUSER', 'root');
 define('DBPASS', '@@yodele'); 
 

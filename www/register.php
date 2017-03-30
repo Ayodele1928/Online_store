@@ -2,10 +2,13 @@
 	<?php
 	#title 
 	$page_title = "Register";
-	
 
+	#include db connection
+	include 'includes/db.php';
+	
 	#include header
 	include 'includes/header.php';
+
 
 	if(array_key_exists('register', $_POST)){
 		#cache errors
@@ -39,11 +42,29 @@
 
 		if(empty($errors)){
 			#do database stuff
+
+			#eliminate unwanted spaces from values in the $_post array
+			$clean = array_map('trim', $_POST);
+
+			#hash the passwords
+			$hash = password_hash($clean['password'], PASSWORD_BCRYPT);
+
+			#insert data
+			$stmt= $conn->prepare("INSERT INTO admin(fname, lname, email, hash) VALUES(:fn, :ln, :e, :h)");
+			#bind params..
+			$data = [
+				':fn' => $clean['fname'],
+				':ln' => $clean['lname'],
+				':e' => $clean['email'],
+				':h' => $hash
+			];
+
+			$stmt->execute($data);
 		}
 	}
 
 
-	 ?>
+?>
 	<link rel="stylesheet" type= "text/css" href="../styles/styles.css">
 	<div class="wrapper">
 		<h1 id="register-label">Admin Register</h1>
