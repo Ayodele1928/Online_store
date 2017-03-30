@@ -9,6 +9,9 @@
 	#include header
 	include 'includes/header.php';
 
+	#include functions page
+	include 'includes/functions.php';
+
 
 	if(array_key_exists('register', $_POST)){
 		#cache errors
@@ -46,6 +49,8 @@
 			#eliminate unwanted spaces from values in the $_post array
 			$clean = array_map('trim', $_POST);
 
+			doAdminRegister($conn, $clean);
+/*
 			#hash the passwords
 			$hash = password_hash($clean['password'], PASSWORD_BCRYPT);
 
@@ -59,7 +64,7 @@
 				':h' => $hash
 			];
 
-			$stmt->execute($data);
+			$stmt->execute($data);*/
 		}
 	}
 
