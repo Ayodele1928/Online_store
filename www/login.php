@@ -1,58 +1,68 @@
-<?php
-	#page title
-	$page_title = "Login";
+<?php 
+		session_start();
 
-	#include header
-	include 'includes/header.php';
-	#include db connection
-	include 'includes/db.php';
-	#include funtions
-	include 'includes/functions.php';
+		$page_title = "Login";
+		include 'includes/header.php';
 
-		if(array_key_exists('register', $_POST)){
-			#error caching
-			$errors = [];
+		include 'includes/db.php';
 
-			if(empty($_POST['email'])){
-				$errors['email'] = "Please enter your email";
+		include 'includes/functions.php';
+				# error caching
+				$errors = [];
+
+					
+			if(array_key_exists('login', $_POST)) {
+				
+				
+
+				if(empty($_POST['email'])) {
+					$errors['email'] = "please enter your email";
+				}
+
+				if(empty($_POST['password'])) {
+					$errors['password'] = "please enter your password";
+				}
+
+				if(empty($errors)) {
+					# select from database
+
+					#clean unwanted values in the $_POST ARRAY
+					$clean = array_map('trim', $_POST);
+
+					adminLogin($conn, $clean);
+				}
 			}
-
-			if(empty($_POST['password'])){
-				$errors['password'] = "You blind? Enter password joor!!";
-			}
-			if(empty($errors)){
-				#do database stuff
-
-				#eliminate unwanted spaces from values in the $_post array
-				$clean = array_map('trim', $_POST);
-
-				adminLogin($conn, $clean);
-			}
-		}
-
-
 ?>
-<link rel="stylesheet" type= "text/css" href="../styles/styles.css">
 
-	<div class="wrapper">
+<div class="wrapper">
 		<h1 id="register-label">Admin Login</h1>
 		<hr>
 		<form id="register"  action ="login.php" method ="POST">
 			<div>
+				<?php
+					//if(isset($errors['email'])) {echo '<span class="err">'. $errors['email']. '</span>';}
+						$display = displayErrors($errors, 'email');
+						echo $display;
+
+				?>
 				<label>email:</label>
 				<input type="text" name="email" placeholder="email">
 			</div>
 			<div>
+				<?php
+					//if(isset($errors['password'])) {echo '<span class="err">'. $errors['password']. '</span>';}
+					$display = displayErrors($errors, 'password');
+					echo $display;
+				?>
 				<label>password:</label>
 				<input type="password" name="password" placeholder="password">
 			</div>
 
-			<input type="submit" name="register" value="login">
+			<input type="submit" name="login" value="Login">
 		</form>
 
 		<h4 class="jumpto">Don't have an account? <a href="register.php">register</a></h4>
-	</div>
+
 <?php
-	#include footer
-	include 'includes/footer.php';
+		include 'includes/footer.php';
 ?>
