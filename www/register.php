@@ -12,10 +12,11 @@
 	#include functions page
 	include 'includes/functions.php';
 
-
-	if(array_key_exists('register', $_POST)){
 		#cache errors
 		$errors = [];
+		
+	if(array_key_exists('register', $_POST)){
+		
 
 		#validate first  name
 		if(empty($_POST['fname'])){
@@ -54,7 +55,7 @@
 			$clean = array_map('trim', $_POST);
 
 			doAdminRegister($conn, $clean);
-			#doesEmailExist($dbconn, $email);
+			#doesEmailExist($dbconn, $email);#we created a function for checking emails for duplication in our db
 /*
 			#hash the passwords
 			$hash = password_hash($clean['password'], PASSWORD_BCRYPT);
@@ -82,14 +83,18 @@
 		<form id="register"  action ="register.php" method ="POST">
 			<div>
 				<?php
-					if(isset($errors['fname'])){ echo '<span class="err">'.$errors['fname']. '</span>';} 
+					#if(isset($errors['fname'])){ echo '<span class="err">'.$errors['fname']. '</span>';} 
+				$display = displayErrors($errors, 'fname');
+				echo $display;
 				?>
 				<label>first name:</label>
 				<input type="text" name="fname" placeholder="first name">
 			</div>
 			<div>
 				<?php
-					if(isset($errors['lname'])){ echo '<span class="err">'.$errors['lname']. '</span>';} 
+					#if(isset($errors['lname'])){ echo '<span class="err">'.$errors['lname']. '</span>';}
+				$display = displayErrors($errors, 'lname');
+				echo $display; 
 				?>
 				<label>last name:</label>	
 				<input type="text" name="lname" placeholder="last name">
@@ -97,14 +102,18 @@
 
 			<div>
 				<?php
-					if(isset($errors['email'])){ echo '<span class="err">'.$errors['email']. '</span>';} 
+					#if(isset($errors['email'])){ echo '<span class="err">'.$errors['email']. '</span>';} 
+				$display = displayErrors($errors, 'email');
+				echo $display;
 				?>
 				<label>email:</label>
 				<input type="text" name="email" placeholder="email">
 			</div>
 			<div>
 				<?php
-					if(isset($errors['password'])){ echo '<span class="err">'.$errors['password']. '</span>';} 
+					#if(isset($errors['password'])){ echo '<span class="err">'.$errors['password']. '</span>';} 
+				$display = displayErrors($errors, 'password');
+				echo $display;
 				?>
 				<label>password:</label>
 				<input type="password" name="password" placeholder="password">
@@ -112,7 +121,9 @@
  
 			<div>
 				<?php
-					if(isset($errors['pword'])){ echo '<span class="err">'.$errors['pword']. '</span>';} 
+					#if(isset($errors['pword'])){ echo '<span class="err">'.$errors['pword']. '</span>';} 
+				$display = displayErrors($errors, 'pword');
+				echo $display;
 				?>
 				<label>confirm password:</label>	
 				<input type="password" name="pword" placeholder="password">

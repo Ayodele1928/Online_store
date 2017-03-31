@@ -37,7 +37,11 @@
 		return $result;
 	}
 
-	function displayErrors(){
-		
+	function displayErrors($dum, $what){
+		$result = "";
+		if(isset($dum[$what])){
+			$result = '<span class="err">'. $dum[$what]. '</span>';
+		}
+		return $result;
 	}
  ?>
