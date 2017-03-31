@@ -4,7 +4,31 @@
 
 	#include header
 	include 'includes/header.php';
+	#include db connection
+	include 'includes/db.php';
+	#include funtions
+	include 'includes/functions.php';
 
+		if(array_key_exists('register', $_POST)){
+			#error caching
+			$errors = [];
+
+			if(empty($_POST['email'])){
+				$errors['email'] = "Please enter your email";
+			}
+
+			if(empty($_POST['password'])){
+				$errors['password'] = "You blind? Enter password joor!!";
+			}
+			if(empty($errors)){
+				#do database stuff
+
+				#eliminate unwanted spaces from values in the $_post array
+				$clean = array_map('trim', $_POST);
+
+				adminLogin($conn, $clean);
+			}
+		}
 
 
 ?>
