@@ -1,4 +1,4 @@
-	
+
 	<?php
 	#title 
 	$page_title = "Register";
@@ -12,6 +12,12 @@
 	#include functions page
 	include 'includes/functions.php';
 
+<<<<<<< HEAD
+=======
+		#cache errors
+		$errors = [];
+	if(array_key_exists('register', $_POST)){
+>>>>>>> db_bookstore
 		#cache errors
 		$errors = [];
 		
@@ -83,9 +89,15 @@
 		<form id="register"  action ="register.php" method ="POST">
 			<div>
 				<?php
+<<<<<<< HEAD
 					#if(isset($errors['fname'])){ echo '<span class="err">'.$errors['fname']. '</span>';} 
 				$display = displayErrors($errors, 'fname');
 				echo $display;
+=======
+					#if(isset($errors['fname'])){ echo '<span class="err">'.$errors['fname']. '</span>';}
+				$display = displayErrors($errors, 'fname');
+				echo $display; 
+>>>>>>> db_bookstore
 				?>
 				<label>first name:</label>
 				<input type="text" name="fname" placeholder="first name">
@@ -111,9 +123,15 @@
 			</div>
 			<div>
 				<?php
+<<<<<<< HEAD
 					#if(isset($errors['password'])){ echo '<span class="err">'.$errors['password']. '</span>';} 
 				$display = displayErrors($errors, 'password');
 				echo $display;
+=======
+					#if(isset($errors['password'])){ echo '<span class="err">'.$errors['password']. '</span>';}
+				$display = displayErrors($errors, 'password');
+				echo $display; 
+>>>>>>> db_bookstore
 				?>
 				<label>password:</label>
 				<input type="password" name="password" placeholder="password">
@@ -121,9 +139,15 @@
  
 			<div>
 				<?php
+<<<<<<< HEAD
 					#if(isset($errors['pword'])){ echo '<span class="err">'.$errors['pword']. '</span>';} 
 				$display = displayErrors($errors, 'pword');
 				echo $display;
+=======
+					#if(isset($errors['pword'])){ echo '<span class="err">'.$errors['pword']. '</span>';}
+				$display = displayErrors($errors, 'pword');
+				echo $display; 
+>>>>>>> db_bookstore
 				?>
 				<label>confirm password:</label>	
 				<input type="password" name="pword" placeholder="password">
