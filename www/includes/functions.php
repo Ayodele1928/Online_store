@@ -15,6 +15,7 @@
 			];
 
 			$stmt->execute($data);
+				
 
 	}
 
@@ -81,4 +82,44 @@ function adminLogin($dbconn, $enter) {
 			
 		}
 	}
+
+function Add_Category($dbconn, $input){
+	
+		#insert the data 
+		$stmt = $dbconn->prepare("INSERT INTO category (category_name) VALUES(:ct)");
+
+		#bind params..
+		$data = [
+			':ct' => $input['category'],
+			];
+
+			if($stmt->execute($data)){
+				$success = "Category sucessfully added";
+				header("Location:categories.php?success=$success");
+			}
+}
+
+function category_table($dbconn){
+	$stmt = $dbconn->prepare("SELECT * FROM category");
+	$stmt->execute();
+	$result = "";
+
+	while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+			$cat_name = $row['category_name'];
+			$cat_id = $row['category_id'];
+
+			$result .= "<tr>";
+			$result .= '<td>' .$row['category_name']. '</td>';
+			$result .= '<td>' .$row['category_id']. '</td>';
+			$result .= "<td><a href='categories.php?act=delete&category_id=$cat_id'>delete</a> </td>";
+			$result .= "</tr>";
+	}
+	return $result;
+
+}
+
+
+
+
  ?>
