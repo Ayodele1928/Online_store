@@ -10,11 +10,13 @@
 	#include functions page
 	include 'includes/functions.php';
 
+	include 'includes/headerLinks.php';
+
 
 
 ?>
 	<link rel="stylesheet" type= "text/css" href="../styles/styles.css">
-<section>
+<!--<section>
 		<div class="mast">
 			<h1>T<span>SSB</span></h1>
 			<nav>
@@ -26,7 +28,7 @@
 				</ul>
 			</nav>
 		</div>
-</section>
+</section>-->
 
 	<div class="wrapper">
 

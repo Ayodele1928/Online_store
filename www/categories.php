@@ -9,12 +9,15 @@
 	#include functions page
 	include 'includes/functions.php';
 
+	include 'includes/headerLinks.php';
+
+
 
 	$errors = [];
 	if(array_key_exists('add', $_POST)){
 		
 
-		#validate first  name
+		#validate input field.
 		if(empty($_POST['category'])){
 			$errors['category'] ="Please enter a Category <br/>";
 		}
@@ -29,23 +32,32 @@
 
 
 		}
-	}
-?>
-	<link rel="stylesheet" type= "text/css" href="../styles/styles.css">
-<section>
-		<div class="mast">
-			<h1>T<span>SSB</span></h1>
-			<nav>
-				<ul class="clearfix">
-					<li><a href="home.php" >Home</a></li>
-					<li><a href="categories.php" class="selected">Categories</a></li>
-					<li><a href="#">Products</a></li>
-					<li><a href="logout.php">Logout</a></li>
-				</ul>
-			</nav>
-		</div>
-</section>
+		
 
+		
+	}
+	if(array_key_exists('delete', $_POST)){
+			$clean = array_map('trim', $_POST);
+			Delete_Category($conn, $clean);
+		}
+
+		if(isset($_GET['success'])){
+			echo $_GET['success'];
+		}
+		if (isset($_GET['action'])) {
+			if ($_GET['action'] = "delete") {
+				Delete_Category($conn, $_GET['category_id']);
+				# code...
+			}
+			# code...
+		}
+?>
+<!DOCTYPE html>
+<html>
+<body>
+
+
+<link rel="stylesheet" type= "text/css" href="../styles/styles.css">
 	<div class="wrapper">
 		<h6 id="register-label">Add Categories</h6>
 		<hr>
@@ -76,11 +88,11 @@
 						<th>Category_ID</th>
 						<th>Remove</th>
 					</tr>
+
 				</thead>
-<?php 
 
 
- ?>
+
 				<tbody>
 					<?php $view = category_table($conn);
 					echo $view; ?>
@@ -88,10 +100,11 @@
 			</table>
 		</div>
 
-
 		
 	</div>
 
+</body>
+</html>
 <?php
 	#include footer
 	include 'includes/footer.php';

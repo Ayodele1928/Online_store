@@ -75,8 +75,8 @@ function adminLogin($dbconn, $enter) {
 				}
 			 else {
 
-					$login_error = "Invalid email and/or password";
-					header("Location:login.php?login_error=$login_error");
+				$success = "<strong>Category sucessfully added</strong>";
+				header("Location:categories.php?success=$success");
 			}
 
 			
@@ -94,9 +94,20 @@ function Add_Category($dbconn, $input){
 			];
 
 			if($stmt->execute($data)){
-				$success = "Category sucessfully added";
+				$success = "<strong>Category sucessfully added</strong>";
 				header("Location:categories.php?success=$success");
 			}
+}
+
+function Delete_Category($dbconn, $input){
+			#insert the data 
+		$stmt = $dbconn->prepare("DELETE FROM category WHERE category_id = :id");
+
+		#bind params..
+		$stmt->bindParam(":id", $input);
+		$stmt->execute();
+		$success = "<strong>Category deleted</strong>";
+		header("Location:categories.php?success=$success");
 }
 
 function category_table($dbconn){
@@ -112,7 +123,7 @@ function category_table($dbconn){
 			$result .= "<tr>";
 			$result .= '<td>' .$row['category_name']. '</td>';
 			$result .= '<td>' .$row['category_id']. '</td>';
-			$result .= "<td><a href='categories.php?act=delete&category_id=$cat_id'>delete</a> </td>";
+			$result .= "<td><a href='categories.php?action=delete&category_id=$cat_id'>delete</a> </td>";
 			$result .= "</tr>";
 	}
 	return $result;
