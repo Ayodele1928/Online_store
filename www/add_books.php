@@ -4,6 +4,8 @@
 
 
 	include 'includes/headerLinks.php';
+	include 'includes/functions.php';
+	include 'includes/db.php';
 
 
 
@@ -53,18 +55,16 @@
 				while($row = $statement->fetch(PDO::FETCH_ASSOC)) { ?>
 				<option value="<?php echo $row['category_name'] ?>"> <?php echo $row['category_name'] ?></option>	 
 				<?php }?>
-				</select>
+				</select><br>
 
 				<input type="submit" name="save" value="upload">
-
 			</div>
-			
+</div>
+				
+						
 </form>
 
-
-	<?php
+<?php
 	#include footer
 	include 'includes/footer.php';
-
-
-	 ?>
+?>
