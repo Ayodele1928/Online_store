@@ -16,6 +16,14 @@ try{
 }
 */
 
+include 'test_function.php';
+
+$errors = [];
+
+if(array_key_exists('save', $_POST)){
+	fileUpload($_FILES, $errors, 'pic');
+}
+/*
 #max file size..
 define("MAX_FILE_SIZE", "2097152");
 
@@ -58,7 +66,7 @@ if(array_key_exists('save', $_POST)){
 			echo $err. '<br/>';
 		}
 	}
-}
+}*/
  ?>
   <form id="register" method="POST" enctype="multipart/form-data">
  	<p> Please Upload a file </p>

@@ -12,7 +12,7 @@
 				<ul class="clearfix">
 					<li><a href="home.php">Home</a></li>
 					<li><a href="categories.php">Categories</a></li>
-					<li><a href="#">Products</a></li>
+					<li><a href="add_books.php">Add Books</a></li>
 					<li><a href="logout.php">Logout</a></li>
 				</ul>
 		</div>

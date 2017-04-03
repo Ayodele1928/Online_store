@@ -130,6 +130,51 @@ function category_table($dbconn){
 
 }
 
+function fileUpload($dum_fil, $dum_err, $dum_name){
+	#max file size..
+	define("MAX_FILE_SIZE", "2097152");
+	
+	#allowed extension..
+	$ext = ["image/jpg", "image/jpeg", "image/png"];
+
+	#be sure a file was selected
+	if(empty($dum_fil[$dum_name]['name'])){
+		$dum_err[] = "Please choose a file";
+	}
+	#check file size
+	if($dum_fil[$dum_name]['size'] > MAX_FILE_SIZE){
+		$dum_err[] = "File size exceeds maximum. maximum: ".MAX_FILE_SIZE;
+	}
+
+	if(!in_array($dum_fil[$dum_name]['type'], $ext)){
+		$dum_err[] = "Invalid file type";
+	}
+
+	
+	#generate random number to append
+	$rnd = rand(0000000000, 9999999999);
+
+	#strip filename for spaces
+	$strip_name = str_replace(" ","_", $dum_fil[$dum_name]['name']);
+	$filename = $rnd.$strip_name;
+	$destination = 'uploads/'.$filename;
+
+	if(empty($dum_err)){
+		if (!move_uploaded_file($dum_fil[$dum_name]['tmp_name'], $destination)){
+			$dum_err[] = "File upload failed";
+			
+		}
+		echo "done";
+	}else{
+		foreach ($dum_err as $err) {
+			echo $err. '<br/>';
+			
+		}
+	}
+
+}
+
+
 
 
 
