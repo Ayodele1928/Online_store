@@ -130,7 +130,7 @@ function category_table($dbconn){
 
 }
 
-function fileUpload($dum_fil, $dum_err, $dum_name){
+function add_books($dbconn, $dirty){
 	#max file size..
 	define("MAX_FILE_SIZE", "2097152");
 	
@@ -171,6 +171,68 @@ function fileUpload($dum_fil, $dum_err, $dum_name){
 			
 		}
 	}
+
+
+
+	$stmt = $dbconn->prepare("SELECT category_id FROM category WHERE category_name=:ca");
+	$stmt->bindParam(":ca", $dirty['category']);
+	$stmt->execute();
+	$row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+	$id = $row['category_id'];
+
+
+	#insert the data 
+	$stmt = $dbconn->prepare("INSERT INTO books(title, author, category_id, price, year_of_pub, isbn, file_path) VALUES(:ti, :au, :cat, :pr, :y, :is,:fi)");
+
+		#bind params..
+		$data = [
+			':ti' => $input['title'],
+			':au' => $input['author'],
+			':cat' => $id,
+			':pr' => $input['price'],
+			':y' => $input['year_of_pub'],
+			':is' => $input['isbn'],
+			':fi' => $destination
+			];
+
+			$stmt->execute($data);
+}		
+
+	
+
+function view_books($dbconn){
+		$result = "";
+	$stmt = $dbconn->prepare("SELECT * FROM books");
+	$stmt->execute();
+
+	while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+			$bk_id = $row['book_id'];
+			$title = $row['title'];
+			$author = $row['author'];
+			$price = $row['price'];
+			$year = $row['year_of_pub'];
+			$isbn = $row['isbn'];
+
+			$statement = $dbconn->prepare("SELECT category_name FROM category WHERE category_id=:ci");
+			$statement->bindParam(":ci", $row['category_id']);
+			$statement->execute();
+			$row1 = $statement->fetch(PDO::FETCH_ASSOC);
+
+			$result .= "<tr>";
+			$result .= '<td>' .$row['title']. '</td>';
+			$result .= '<td>' .$row['author']. '</td>';
+			$result .= '<td>' .$row['category_name']. '</td>';
+			$result .= '<td>' .$row['price']. '</td>';
+			$result .= '<td>' .$row['year_of_pub']. '</td>';
+			$result .= '<td>' .$row['isbn']. '</td>';
+			$result .= '<td><img src="'.$row['file_path'].'" height="60" width="60"></td>';
+			$result .= "<td><a href='view_books.php?action=edit&book_id=$bk_id&title=$title&author=$author&price=$price&year_of_pub=$year&isbn=$isbn'>edit</a> </td>";
+			$result .= "<td><a href='categories.php?action=delete&category_id=$bk_id'>delete</a> </td>";
+			$result .= "</tr>";
+	}
+	return $result;
 
 }
 

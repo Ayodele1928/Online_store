@@ -48,6 +48,8 @@
 			#eliminate unwanted spaces from values in the $_post array
 			$clean = array_map('trim', $_POST);
 
+			add_books($conn, $clean);
+
 		}
 	}
 
