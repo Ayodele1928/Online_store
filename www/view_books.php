@@ -32,7 +32,7 @@
 						<th>Book ID</th>
 						<th>Title</th>
 						<th>Author</th>
-						<th>Category ID</th>
+						<th>Category</th>
 						<th>Price</th>
 						<th>Year of publication</th>
 						<th>ISBN</th>

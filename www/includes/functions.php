@@ -130,76 +130,93 @@ function category_table($dbconn){
 
 }
 
-function add_books($dbconn, $dirty){
-	#max file size..
-	define("MAX_FILE_SIZE", "2097152");
-	
-	#allowed extension..
-	$ext = ["image/jpg", "image/jpeg", "image/png"];
 
-	#be sure a file was selected
-	if(empty($dum_fil[$dum_name]['name'])){
-		$dum_err[] = "Please choose a file";
-	}
-	#check file size
-	if($dum_fil[$dum_name]['size'] > MAX_FILE_SIZE){
-		$dum_err[] = "File size exceeds maximum. maximum: ".MAX_FILE_SIZE;
-	}
+/*function UploadFile($file, $name, $uploadDir) {
+	$data = [];
+	$rnd = rand (0000000000,9999999999);
 
-	if(!in_array($dum_fil[$dum_name]['type'], $ext)){
-		$dum_err[] = "Invalid file type";
-	}
+	$strip_name = str_replace (" ","_",$_FILES['pic']['name']);
 
-	
-	#generate random number to append
-	$rnd = rand(0000000000, 9999999999);
-
-	#strip filename for spaces
-	$strip_name = str_replace(" ","_", $dum_fil[$dum_name]['name']);
 	$filename = $rnd.$strip_name;
-	$destination = 'uploads/'.$filename;
+	$destination = $uploadDir .$filename;
 
-	if(empty($dum_err)){
-		if (!move_uploaded_file($dum_fil[$dum_name]['tmp_name'], $destination)){
-			$dum_err[] = "File upload failed";
-			
-		}
-		echo "done";
-	}else{
-		foreach ($dum_err as $err) {
-			echo $err. '<br/>';
-			
-		}
+	if (!move_uploaded_file($file[$name]['tmp_name'], $destination)){
+		$data[] = false;
+	} else {
+		$data[] = true;
+		$data[] = $destination;
 	}
 
+	return $data;
+}
+*/
 
-
-	$stmt = $dbconn->prepare("SELECT category_id FROM category WHERE category_name=:ca");
-	$stmt->bindParam(":ca", $dirty['category']);
-	$stmt->execute();
-	$row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-	$id = $row['category_id'];
-
+	function addBooks($dbconn, $input){
+		
 
 	#insert the data 
-	$stmt = $dbconn->prepare("INSERT INTO books(title, author, category_id, price, year_of_pub, isbn, file_path) VALUES(:ti, :au, :cat, :pr, :y, :is,:fi)");
+	$stmt = $dbconn->prepare("INSERT INTO books(title, author, price, image_location, year_of_pub, isbn) VALUES(:ti, :au, :pr, :il, :y, :is)");
 
 		#bind params..
 		$data = [
 			':ti' => $input['title'],
 			':au' => $input['author'],
-			':cat' => $id,
 			':pr' => $input['price'],
+			':il' => $input['price'],
 			':y' => $input['year_of_pub'],
 			':is' => $input['isbn'],
-			':fi' => $destination
 			];
 
 			$stmt->execute($data);
-}		
 
-	
+		
+	}
+
+	function fileUpload(){
+		#max file size..
+		define("MAX_FILE_SIZE", "2097152");
+		
+		#allowed extension..
+		$ext = ["image/jpg", "image/jpeg", "image/png"];
+
+		#be sure a file was selected
+		if(empty($_FILES['book']['name'])){
+			$errors[] = "Please choose a file";
+		}
+		#check file size
+		if($_FILES['book']['size'] > MAX_FILE_SIZE){
+			$errors[] = "File size exceeds maximum. maximum: ".MAX_FILE_SIZE;
+		}
+
+		if(!in_array($_FILES['book']['type'], $ext)){
+			$errors[] = "Invalid file type";
+		}
+
+		
+		#generate random number to append
+		$rnd = rand(0000000000, 9999999999);
+
+		#strip filename for spaces
+		$strip_name = str_replace(" ","_", $_FILES['book']['name']);
+		$filename = $rnd.$strip_name;
+		$destination = 'uploads/'.$filename;
+
+		if(empty($errors)){
+			if (!move_uploaded_file($_FILES['book']['tmp_name'], $destination)){
+				$errors[] = "File upload failed";
+				return [false, $errors];				
+			} else {
+				return [true, $destination];
+			}
+		
+		}
+
+}
+
+
+
+
+
 
 function view_books($dbconn){
 		$result = "";
@@ -221,15 +238,17 @@ function view_books($dbconn){
 			$row1 = $statement->fetch(PDO::FETCH_ASSOC);
 
 			$result .= "<tr>";
+			$result .= '<td>' .$row['book_id']. '</td>';
 			$result .= '<td>' .$row['title']. '</td>';
 			$result .= '<td>' .$row['author']. '</td>';
-			$result .= '<td>' .$row['category_name']. '</td>';
+			$result .= '<td>' .$row1.'</td>';
+			#$result .= '<td>' .$row['category_name']. '</td>';
 			$result .= '<td>' .$row['price']. '</td>';
 			$result .= '<td>' .$row['year_of_pub']. '</td>';
 			$result .= '<td>' .$row['isbn']. '</td>';
-			$result .= '<td><img src="'.$row['file_path'].'" height="60" width="60"></td>';
+			#$result .= '<td><img src="'.$row['file_path'].'" height="60" width="60"></td>';
 			$result .= "<td><a href='view_books.php?action=edit&book_id=$bk_id&title=$title&author=$author&price=$price&year_of_pub=$year&isbn=$isbn'>edit</a> </td>";
-			$result .= "<td><a href='categories.php?action=delete&category_id=$bk_id'>delete</a> </td>";
+			$result .= "<td><a href='view_books.php?action=delete&category_id=$bk_id'>delete</a> </td>";
 			$result .= "</tr>";
 	}
 	return $result;
