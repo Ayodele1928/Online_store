@@ -1,112 +1,68 @@
-	<?php
-	#title 
-	$page_title = "Register";
+<?php
+	
+	session_start();
+	$page_title = "Categories";
 
-	#include db connection
 	include 'includes/db.php';
 
-
-	#include functions page
 	include 'includes/functions.php';
 
 	include 'includes/headerLinks.php';
 
-
-
 	$errors = [];
-	if(array_key_exists('add', $_POST)){
-		
 
-		#validate input field.
-		if(empty($_POST['category'])){
-			$errors['category'] ="Please enter a Category <br/>";
+	if (array_key_exists('enter', $_POST)) {
+		$clean = array_map('trim', $_POST);
+		Add_Category($conn, $clean);
 		}
 
-		if(empty($errors)){
-			#do database stuff
 
-			#eliminate unwanted spaces from values in the $_post array
-			$clean = array_map('trim', $_POST);
+	
 
-			Add_Category($conn, $clean);
-
-
-		}
-		
-
-		
+	if (isset($_GET['success'])) {
+		echo $_GET['success'];
 	}
-	if(array_key_exists('delete', $_POST)){
-			$clean = array_map('trim', $_POST);
-			Delete_Category($conn, $clean);
-		}
-
-		if(isset($_GET['success'])){
-			echo $_GET['success'];
-		}
-		if (isset($_GET['action'])) {
-			if ($_GET['action'] = "delete") {
-				Delete_Category($conn, $_GET['category_id']);
-				# code...
-			}
-			# code...
-		}
 ?>
-<!DOCTYPE html>
-<html>
-<body>
+<div class="wrapper">
+		<div id="stream"><br/><br/>
+		<p> 
+		<?php
 
+	if (isset($_GET['act'])) {
+		if ($_GET['act'] = "delete") {
+			Delete_Category($conn, $_GET['category_id']);
 
-<link rel="stylesheet" type= "text/css" href="../styles/styles.css">
-	<div class="wrapper">
-		<h6 id="register-label">Add Categories</h6>
-		<hr>
-		<form id="register"  action ="categories.php" method ="POST">
-
-			<div>
-				<label>Category:</label>	
-				<?php
-					#if(isset($errors['category'])){ echo '<span class="err">'.$errors['category']. '</span>';}
-				$display = displayErrors($errors, 'category');
-				echo $display;
-
-				?>
-		
-				<input type="text" name="category" placeholder=""><br />
-				<input type="submit" name="add" value="add">
-			</div>
-			<hr/>
-
-			
+		}
+	}
+			?>
+		<h3>Add Category</h3>
+		<form id="register" method="POST" action="categories.php">
+			<input type="text" name="category" placeholder="Enter category name" />
+			<input type="submit" name="enter" value="Add">
 		</form>
+		</p>
+	
 
-			<div id="stream">
-			<table id="tab">
-				<thead>
-					<tr>
-						<th>Category</th>
-						<th>Category_ID</th>
-						<th>Remove</th>
-					</tr>
-
-				</thead>
-
-
-
-				<tbody>
-					<?php $view = category_table($conn);
-					echo $view; ?>
-          		</tbody>
-			</table>
+	<table id="tab">
+		<thead>
+			<tr>
+				<th>Category ID</th>
+				<th>Category Name</th>
+				<th>delete</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php  $view = category_table($conn); echo $view; ?>
+		</tbody>
+	</table>
+		
 		</div>
 
-		
 	</div>
+	<?php
+	include 'includes/footer.php';
+
+	?>
 
 </body>
 </html>
-<?php
-	#include footer
-	include 'includes/footer.php';
-
-?>

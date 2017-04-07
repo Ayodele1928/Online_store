@@ -29,7 +29,17 @@
 					#clean unwanted values in the $_POST ARRAY
 					$clean = array_map('trim', $_POST);
 
-					adminLogin($conn, $clean);
+				$chk = adminLogin($conn, $clean);
+
+
+				if($chk[0]){
+					$_SESSION['id'] = $chk[1]['admin_id'];
+					$_SESSION['email'] = $chk[1]['email'];
+
+					redirect("home.php");
+				}else{
+					redirect("login.php?msg=invalid email or password");
+				}
 				}
 			}
 
@@ -42,6 +52,8 @@
 			<div>
 				<?php
 					//if(isset($errors['email'])) {echo '<span class="err">'. $errors['email']. '</span>';}
+				/*	if(isset($_GET['msg']))
+					echo '<span class="err">' .$_GET['msg']. '</span>';*/
 						$display = displayErrors($errors, 'email');
 						echo $display;
 
@@ -52,6 +64,8 @@
 			<div>
 				<?php
 					//if(isset($errors['password'])) {echo '<span class="err">'. $errors['password']. '</span>';}
+					/*if(isset($_GET['msg']))
+					echo '<span class="err">' .$_GET['msg']. '</span>';*/
 					$display = displayErrors($errors, 'password');
 					echo $display;
 				?>

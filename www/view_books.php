@@ -1,63 +1,88 @@
+<?php 
 
-	<?php
-	#title 
-	$page_title = "Register";
 
-	#include db connection
+session_start();
+	$page_title = "View books";
+
 	include 'includes/db.php';
-	
-	#include header
-	include 'includes/headerLinks.php';
 
-	#include functions page
 	include 'includes/functions.php';
 
-	?>
-<link rel="stylesheet" type= "text/css" href="../styles/styles.css">
-	<div class="wrapper">
-		<h6 id="register-label">View books</h6>
-		<hr>
-		<form id="register"  action ="categories.php" method ="POST">
+	include 'includes/headerLinks.php';
 
-		
-			<hr/>
+	$errors = [];
 
-			
-		</form>
+	
+	if (array_key_exists('edit', $_POST)) {
+		$clean = array_map('trim', $_POST);
+		editBooks($conn, $clean);
+	}
+	if (isset($_GET['success'])) {
+		echo $_GET['success'];
+	}
 
-			<div id="stream">
-			<table id="tab">
-				<thead>
-					<tr>
-						<th>Book ID</th>
-						<th>Title</th>
-						<th>Author</th>
-						<th>Category</th>
-						<th>Price</th>
-						<th>Year of publication</th>
-						<th>ISBN</th>
-						<th>Edit</th>
-						<th>Delete</th>
-					</tr>
-
-				</thead>
-
-
-
-				<tbody>
-					<?php $view = view_books($conn);
-					echo $view; ?>
-          		</tbody>
-			</table>
-		</div>
-
-		
-	</div>
-
-</body>
-</html>
-<?php
-	#include footer
-	include 'includes/footer.php';
 
 ?>
+<div class="wrapper">
+		<div id="stream">
+			<p> 
+		<?php
+
+		if (isset($_GET['action'])) {
+			if ($_GET['action'] = "edit") {
+				
+			
+		
+
+
+
+		?>
+		<h3>Edit Product</h3>
+			<form id="register" method="POST" action="view_books.php">
+				<input type="text" name="title" placeholder="Book title" value="<?php echo $_GET['title'];   ?>" />
+				<input type="hidden" name="book_id" value="<?php echo $_GET['book_id'];  ?>">
+				<input type="submit" name="edit" value="Edit">
+			</form>
+			<?php
+		}
+	}
+
+	if (isset($_GET['act'])) {
+		if ($_GET['act'] = "delete") {
+			deleteBooks($conn, $_GET['book_id']);
+
+		}
+	}
+
+			?>
+			</p>
+<h3> Books </h3>
+<hr>
+	<table id="tab">
+		<thead>
+			<tr>
+				
+				<th>Title</th>
+				<th>Author</th>
+				<th>Price</th>
+				<th>Year</th>
+				<th>ISBN</th>
+				<th>Book Cover</th>
+				<th>edit</th>
+				<th>delete</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php  $view = view_books($conn); echo 
+			$view; ?>
+		</tbody>
+	</table>
+		
+		</div>
+
+</div>
+
+<?php
+	include 'includes/footer.php';
+
+	?>
