@@ -326,5 +326,32 @@ function editBooks($dbconn, $input){
 		header("Location:view_books.php?success=$success");
 	}
 
+	function doUserRegister($dbconn, $input){
+		#hash the password
+		$hash = password_hash($input['password'], PASSWORD_BCRYPT);
+
+		#insert the data 
+		$stmt = $dbconn->prepare("INSERT INTO user(fname, lname, email, username, hash) VALUES(:fn, :ln, :e, :un, :h)");
+
+		#bind params..
+		$data = [
+			':fn' => $input['fname'],
+			':ln' => $input['lname'],
+			':e' => $input['email'],
+			':un' => $input['username'],
+			':h' => $hash
+			];
+
+			$stmt->execute($data);
+				
+
+	}
+
+
+ 	
+
+
 
  ?>
+
+
