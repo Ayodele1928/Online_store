@@ -347,7 +347,27 @@ function editBooks($dbconn, $input){
 
 	}
 
+/*
 
+function doUserLogin($dbconn, $enter){
+	#data
+	$result = [];
+	#query data
+	$statement = $dbconn->prepare("SELECT * FROM user WHERE email=:e");
+	#bind params
+	$statement->bindParam(":e", $enter['email']);
+	$statement->execute();
+	$row = $statement->fetch(PDO::FETCH_ASSOC);
+	#get number of rows
+	$count = $statement->rowCount();
+	if($count != 1 || !password_verify($enter['password'],$row['hash'])) {
+		$result[] = false;
+	} else {
+		$result[] = true;
+		$result[] = $row;
+	}
+	return $result;
+}*/
  	
 
 

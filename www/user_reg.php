@@ -76,7 +76,7 @@ $errors = [];
         <input type="password" class="text-field confirm-password" placeholder="Confirm Password" name="pword"/>
 
         <input type="submit" name="register" class="def-button" value="Register"/>
-        <p class="login-option">Have an account already? Login</p>
+        <p class="login-option">Have an account already? <a href="user_login.php"> Login </a></p>
       </form>
     </div>
   </div>
